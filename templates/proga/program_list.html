@@ -1,0 +1,33 @@
+{% extends "proga/base.html" %}
+
+{% block title %}Спеціальності{% endblock %}
+
+{% block content %}
+    <h1>Спеціальності</h1>
+    <p class="lead">Освітні програми, за якими факультет готує фахівців.</p>
+
+    {% if programs %}
+        <div class="cards-grid">
+            {% for program in programs %}
+                <article class="card program-card">
+                    <h2><a href="{% url 'proga:program_detail' program.pk %}">{{ program.code }} — {{ program.name }}</a></h2>
+                    <p class="muted">{{ program.short_description }}</p>
+                    <dl class="meta-list">
+                        <div>
+                            <dt>Координатор набору</dt>
+                            <dd>{{ program.coordinator_name }} — {{ program.coordinator_contact }}</dd>
+                        </div>
+                        {% if program.department %}
+                            <div>
+                                <dt>Випускова кафедра</dt>
+                                <dd><a href="{% url 'proga:department_detail' program.department.pk %}">{{ program.department.name }}</a></dd>
+                            </div>
+                        {% endif %}
+                    </dl>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="empty-state">Наразі інформація про спеціальності не додана.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "proga/base.html" %}
+
+{% block title %}{{ content.title }}{% endblock %}
+
+{% block content %}
+    <section class="hero">
+        <h1>{{ content.title }}</h1>
+        <p class="hero-intro">{{ content.intro }}</p>
+    </section>
+
+    <section class="card">
+        <h2>Про факультет</h2>
+        <div class="prose">{{ content.about|linebreaks }}</div>
+    </section>
+
+    <section class="quick-links">
+        <a class="quick-link" href="{% url 'proga:program_list' %}">
+            <h3>Спеціальності</h3>
+            <p>Освітні програми факультету, координатори набору та перелік дисциплін.</p>
+        </a>
+        <a class="quick-link" href="{% url 'proga:department_list' %}">
+            <h3>Кафедри</h3>
+            <p>Кафедри факультету, їхні завідувачі та викладацький склад.</p>
+        </a>
+    </section>
+
+    <section class="card contacts">
+        <h2>Контакти</h2>
+        <ul class="contact-list">
+            {% if content.address %}<li><span class="contact-label">Адреса:</span> {{ content.address }}</li>{% endif %}
+            {% if content.phone %}<li><span class="contact-label">Телефон:</span> {{ content.phone }}</li>{% endif %}
+            {% if content.email %}<li><span class="contact-label">Email:</span> <a href="mailto:{{ content.email }}">{{ content.email }}</a></li>{% endif %}
+            {% if content.website %}<li><span class="contact-label">Сайт:</span> <a href="{{ content.website }}" target="_blank" rel="noopener">{{ content.website }}</a></li>{% endif %}
+        </ul>
+    </section>
+{% endblock %}

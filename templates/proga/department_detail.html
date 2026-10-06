@@ -1,0 +1,45 @@
+{% extends "proga/base.html" %}
+
+{% block title %}{{ department.name }}{% endblock %}
+
+{% block content %}
+    <a class="back-link" href="{% url 'proga:department_list' %}">&larr; Усі кафедри</a>
+    <h1>{{ department.name }}</h1>
+    <p class="lead">Завідувач кафедри: {{ department.head }}</p>
+
+    {% if department.description %}
+        <section class="card">
+            <h2>Про кафедру</h2>
+            <div class="prose">{{ department.description|linebreaks }}</div>
+        </section>
+    {% endif %}
+
+    <section class="card">
+        <h2>Випускові спеціальності</h2>
+        {% if department.programs.all %}
+            <ul class="discipline-list">
+                {% for program in department.programs.all %}
+                    <li><a href="{% url 'proga:program_detail' program.pk %}">{{ program.code }} — {{ program.name }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-state">Наразі кафедра не є випусковою для жодної спеціальності.</p>
+        {% endif %}
+    </section>
+
+    <section class="card">
+        <h2>Викладачі</h2>
+        {% if department.teachers.all %}
+            <div class="teacher-grid">
+                {% for teacher in department.teachers.all %}
+                    <div class="teacher-card">
+                        <p class="teacher-name">{{ teacher.name }}</p>
+                        <p class="muted">{{ teacher.position }}{% if teacher.degree %}, {{ teacher.degree }}{% endif %}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty-state">Інформація про викладачів ще не додана.</p>
+        {% endif %}
+    </section>
+{% endblock %}

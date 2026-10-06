@@ -1,0 +1,35 @@
+{% extends "proga/base.html" %}
+
+{% block title %}Кафедри{% endblock %}
+
+{% block content %}
+    <h1>Кафедри</h1>
+    <p class="lead">Кафедри факультету та спеціальності, для яких вони є випусковими.</p>
+
+    {% if departments %}
+        <div class="cards-grid">
+            {% for department in departments %}
+                <article class="card department-card">
+                    <h2><a href="{% url 'proga:department_detail' department.pk %}">{{ department.name }}</a></h2>
+                    <p class="muted">Завідувач кафедри: {{ department.head }}</p>
+                    <dl class="meta-list">
+                        <div>
+                            <dt>Випускові спеціальності</dt>
+                            <dd>
+                                {% if department.programs.all %}
+                                    {% for program in department.programs.all %}
+                                        <a href="{% url 'proga:program_detail' program.pk %}">{{ program.code }} {{ program.name }}</a>{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <span class="empty-state">немає</span>
+                                {% endif %}
+                            </dd>
+                        </div>
+                    </dl>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="empty-state">Наразі інформація про кафедри не додана.</p>
+    {% endif %}
+{% endblock %}

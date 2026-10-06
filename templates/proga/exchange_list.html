@@ -1,0 +1,46 @@
+{% extends "proga/base.html" %}
+
+{% block title %}Програми обміну{% endblock %}
+
+{% block content %}
+    <h1>Програми академічного обміну</h1>
+    <p class="lead">Партнерські університети та умови подачі заявок.</p>
+
+    {% if programs %}
+        <div class="cards-grid">
+            {% for program in programs %}
+                <article class="card program-card">
+                    <h2>{{ program.university_name }}</h2>
+                    <p class="muted">{{ program.country }}</p>
+                    <p>{{ program.description }}</p>
+                    <dl class="meta-list">
+                        <div>
+                            <dt>Мови навчання</dt>
+                            <dd>{{ program.languages }}</dd>
+                        </div>
+                        <div>
+                            <dt>Кількість місць</dt>
+                            <dd>{{ program.places }}</dd>
+                        </div>
+                        <div>
+                            <dt>Дедлайн подачі</dt>
+                            <dd>{{ program.deadline|date:"d.m.Y" }}</dd>
+                        </div>
+                        <div>
+                            <dt>Статус</dt>
+                            <dd>
+                                {% if program.is_open %}
+                                    <span class="status-open">Прийом триває</span>
+                                {% else %}
+                                    <span class="status-closed">Прийом завершено</span>
+                                {% endif %}
+                            </dd>
+                        </div>
+                    </dl>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="empty-state">Наразі програми обміну не додані.</p>
+    {% endif %}
+{% endblock %}

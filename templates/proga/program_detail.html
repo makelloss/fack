@@ -1,0 +1,36 @@
+{% extends "proga/base.html" %}
+
+{% block title %}{{ program.name }}{% endblock %}
+
+{% block content %}
+    <a class="back-link" href="{% url 'proga:program_list' %}">&larr; Усі спеціальності</a>
+    <h1>{{ program.code }} — {{ program.name }}</h1>
+
+    <section class="card">
+        <h2>Опис</h2>
+        <div class="prose">{{ program.description|linebreaks }}</div>
+    </section>
+
+    <section class="card">
+        <h2>Координатор набору</h2>
+        <p>{{ program.coordinator_name }} — {{ program.coordinator_contact }}</p>
+    </section>
+
+    {% if program.department %}
+        <section class="card">
+            <h2>Випускова кафедра</h2>
+            <p><a href="{% url 'proga:department_detail' program.department.pk %}">{{ program.department.name }}</a></p>
+        </section>
+    {% endif %}
+
+    <section class="card">
+        <h2>Дисципліни</h2>
+        {% if program.disciplines.all %}
+            <ul class="discipline-list">
+                {% for discipline in program.disciplines.all %}<li>{{ discipline.name }}</li>{% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-state">Перелік дисциплін ще не додано.</p>
+        {% endif %}
+    </section>
+{% endblock %}
