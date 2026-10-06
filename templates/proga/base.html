@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Сайт факультету{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'proga/css/style.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="{% url 'proga:home' %}">
+                <span class="brand-name">Сайт факультету</span>
+            </a>
+            <nav class="main-nav">
+            <a href="{% url 'proga:exchange_list' %}"
+   class="{% if request.resolver_match.url_name == 'exchange_list' %}active{% endif %}">Обмін</a>
+                <a href="{% url 'proga:home' %}"
+                   class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Головна</a>
+                <a href="{% url 'proga:department_list' %}"
+                   class="{% if 'department' in request.resolver_match.url_name %}active{% endif %}">Кафедри</a>
+                <a href="{% url 'proga:program_list' %}"
+                   class="{% if 'program' in request.resolver_match.url_name %}active{% endif %}">Спеціальності</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container page">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>&copy; {% now "Y" %} Сайт факультету. Навчальний проєкт.</p>
+        </div>
+    </footer>
+</body>
+</html>
